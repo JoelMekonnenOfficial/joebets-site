@@ -1,0 +1,25 @@
+# Netlify build config for joebets.com
+# Static HTML site — no build step needed.
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Optional: Netlify Forms handler (to accept the contact form submissions)
+# Remove if you wire a different form handler.
+[[redirects]]
+  from = "/thanks"
+  to = "/"
+  status = 200
