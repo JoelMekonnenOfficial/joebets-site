@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Joe Bets">
+  <defs>
+    <radialGradient id="gold" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#f7de8f"/>
+      <stop offset="55%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#6a5214"/>
+    </radialGradient>
+    <linearGradient id="rim" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f4d47a"/>
+      <stop offset="100%" stop-color="#8a6d1f"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="94" fill="url(#gold)"/>
+  <circle cx="100" cy="100" r="94" fill="none" stroke="url(#rim)" stroke-width="4"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="#1a1306" stroke-width="1.5" opacity="0.6"/>
+  <g font-family="Georgia, 'Playfair Display', serif" font-weight="900" fill="#1a1306" text-anchor="middle">
+    <text x="100" y="118" font-size="78" letter-spacing="-2">JB</text>
+  </g>
+  <g font-family="Inter, system-ui, sans-serif" font-weight="700" fill="#1a1306" text-anchor="middle" letter-spacing="4">
+    <text x="100" y="38" font-size="10">JOE</text>
+    <text x="100" y="172" font-size="10">BETS</text>
+  </g>
+</svg>
