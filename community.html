@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community — JoeBets</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body class="dash-shell">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-brand"><img src="/logo.png" alt="JoeBets"></a>
+    <div class="nav-links">
+      <a href="/app.html">Dashboard</a>
+      <a href="/community.html" class="active">Community</a>
+      <a href="/#pricing">Membership</a>
+    </div>
+    <div class="nav-cta" id="navCta">
+      <button class="btn btn-ghost" onclick="openAuth('free')">Sign in</button>
+    </div>
+  </div>
+</nav>
+
+<main class="dash-main">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:32px;">
+      <span class="eyebrow">Community</span>
+      <h2>The JoeBets floor.</h2>
+      <p>Free members and Gold Ticket holders talk cards, trade reads, and settle bets. Sign up free to join.</p>
+    </div>
+
+    <div id="gate">
+      <div class="empty" style="padding:80px 20px;">
+        <div style="font-size:1.2rem; color:var(--ink); margin-bottom:8px;">Free account required</div>
+        <div style="font-size:0.95rem; margin-bottom:24px;">Create a free JoeBets account to join the community.</div>
+        <button class="btn btn-primary btn-lg" onclick="openAuth('free')">Create free account</button>
+      </div>
+    </div>
+
+    <div id="board" style="display:none;">
+      <div class="tier-banner">
+        <div class="msg">Community threads are in beta. <strong>Talk cards, share reads, debate lines.</strong> Be respectful or get bounced.</div>
+      </div>
+
+      <div class="event-grid" style="grid-template-columns: 1fr;">
+        <article class="event-card">
+          <div class="league">PINNED · JoeBets staff</div>
+          <div class="matchup">Welcome to the floor — house rules</div>
+          <div class="meta">Apr 20 · 3 min read</div>
+          <p style="color:var(--ink-dim); margin-top:10px; font-size:0.95rem;">
+            No tout spam. No shilling. No attacks. Share your logic, not just your bet slip. Gold Ticket members get a gold badge. Track records stay honest — we don't delete losing plays.
+          </p>
+        </article>
+
+        <article class="event-card">
+          <div class="league">UFC · Discussion</div>
+          <div class="matchup">Who are you on for the UFC 320 main?</div>
+          <div class="meta">Posted 4h ago · 24 replies</div>
+        </article>
+
+        <article class="event-card">
+          <div class="league">Boxing · Analysis</div>
+          <div class="matchup">Crawford's last three camps — what changed?</div>
+          <div class="meta">Posted 8h ago · 12 replies</div>
+        </article>
+
+        <article class="event-card">
+          <div class="league">NBA · Props</div>
+          <div class="matchup">SGA over/under vs. the Nuggets — thoughts?</div>
+          <div class="meta">Posted 1d ago · 31 replies</div>
+        </article>
+      </div>
+
+      <p style="text-align:center; color:var(--ink-faint); margin-top:40px; font-size:0.9rem;">
+        Full threaded community coming soon. For now — browse pinned reads.
+      </p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container foot-row">
+    <div>© 2026 JoeBets. Bet responsibly.</div>
+    <div>
+      <a href="/">Home</a>
+      <a href="/app.html">Dashboard</a>
+      <a href="mailto:joe4ku@gmail.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Auth modal -->
+<div class="modal-bg" id="authModal" onclick="if(event.target.id==='authModal')closeAuth()">
+  <div class="modal">
+    <button class="close" onclick="closeAuth()">×</button>
+    <h3 id="authTitle">Sign in to JoeBets</h3>
+    <p id="authSub" style="margin:0 0 6px; font-size:0.95rem;">Enter your email — we'll send you a magic link.</p>
+    <form onsubmit="submitAuth(event)">
+      <input type="email" id="authEmail" placeholder="you@email.com" required autocomplete="email">
+      <button type="submit" class="btn btn-primary submit" id="authSubmit">Send magic link</button>
+    </form>
+    <div id="authMsg"></div>
+    <p class="tiny">No passwords. No spam. We'll email you a one-time sign-in link.</p>
+  </div>
+</div>
+
+<script>
+function getSession() {
+  try {
+    const raw = localStorage.getItem('jb.session');
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (s.exp && s.exp < Date.now()/1000) { localStorage.removeItem('jb.session'); return null; }
+    return s;
+  } catch { return null; }
+}
+function setSession(token, payload) { localStorage.setItem('jb.session', JSON.stringify({ token, ...payload })); }
+function signOut() { localStorage.removeItem('jb.session'); location.reload(); }
+
+(function handleMagicLink() {
+  const p = new URLSearchParams(location.search);
+  const token = p.get('token');
+  if (!token) return;
+  try {
+    const [, payloadB64] = token.split('.');
+    const payload = JSON.parse(atob(payloadB64.replace(/-/g,'+').replace(/_/g,'/')));
+    setSession(token, payload);
+    history.replaceState({}, '', location.pathname);
+  } catch (e) {}
+})();
+
+function renderNavCta() {
+  const s = getSession();
+  const nav = document.getElementById('navCta');
+  if (s) {
+    nav.innerHTML = `
+      <span style="color:var(--ink-dim); font-size:0.88rem; margin-right:10px;">${s.email} · <span style="color:var(--gold-bright); font-weight:600;">${(s.tier||'free').toUpperCase()}</span></span>
+      ${s.tier !== 'gold' ? '<button class="btn btn-primary" onclick="openAuth(\'gold\')">Upgrade</button>' : ''}
+      <button class="btn btn-ghost" onclick="signOut()">Sign out</button>`;
+  } else {
+    nav.innerHTML = `
+      <button class="btn btn-ghost" onclick="openAuth('free')">Sign in</button>
+      <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold</button>`;
+  }
+}
+function gate() {
+  const s = getSession();
+  if (s) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('board').style.display = 'block';
+  }
+}
+
+/* Auth modal */
+let authIntent = 'free';
+function openAuth(intent) {
+  authIntent = intent || 'free';
+  const t = document.getElementById('authTitle'), s = document.getElementById('authSub'), b = document.getElementById('authSubmit');
+  if (authIntent === 'gold') {
+    t.textContent = 'Get your Gold Ticket';
+    s.textContent = 'Enter your email — we\'ll create your account and send you to checkout.';
+    b.textContent = 'Continue to Stripe';
+  } else {
+    t.textContent = 'Sign in or create a free account';
+    s.textContent = 'Enter your email — we\'ll send you a magic link.';
+    b.textContent = 'Send magic link';
+  }
+  document.getElementById('authMsg').innerHTML = '';
+  document.getElementById('authModal').classList.add('open');
+  setTimeout(() => document.getElementById('authEmail').focus(), 50);
+}
+function closeAuth() { document.getElementById('authModal').classList.remove('open'); }
+async function submitAuth(e) {
+  e.preventDefault();
+  const email = document.getElementById('authEmail').value.trim();
+  const msg = document.getElementById('authMsg'), btn = document.getElementById('authSubmit');
+  btn.disabled = true; btn.textContent = 'Working…';
+  try {
+    const endpoint = authIntent === 'gold' ? '/.netlify/functions/checkout' : '/.netlify/functions/auth-request';
+    const res = await fetch(endpoint, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email, tier: authIntent }) });
+    if (!res.ok) { const { error } = await res.json().catch(() => ({ error: 'Something went wrong.' })); throw new Error(error); }
+    const data = await res.json();
+    if (data.url) { window.location.href = data.url; return; }
+    msg.innerHTML = '<div class="success">Check your email for the sign-in link.</div>';
+    btn.textContent = 'Sent ✓';
+  } catch (err) {
+    msg.innerHTML = '<div class="err">' + (err.message || 'Try again.') + '</div>';
+    btn.disabled = false; btn.textContent = authIntent === 'gold' ? 'Continue to Stripe' : 'Send magic link';
+  }
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuth(); });
+
+renderNavCta();
+gate();
+</script>
+</body>
+</html>

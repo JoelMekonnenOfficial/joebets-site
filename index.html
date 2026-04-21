@@ -1,864 +1,258 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Joe Bets — Sharp picks, same night.</title>
-<meta name="description" content="A betting subscription from someone who actually bets. Combat first, NBA, NFL, and prediction markets. Every pick, every night, with the reasoning behind it."/>
-<meta property="og:title" content="Joe Bets — Sharp picks, same night."/>
-<meta property="og:description" content="Every Gold Pick, same-night, with the write-up. Cancel anytime."/>
-<meta property="og:type" content="website"/>
-<link rel="icon" href="./logo.svg" type="image/svg+xml"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
-<style>
-:root {
-  --bg: #060605;
-  --bg2: #0c0b09;
-  --panel: #111110;
-  --panel2: #181716;
-  --gold: #d4af37;
-  --gold-bright: #f4d47a;
-  --gold-deep: #8a6d1f;
-  --text: #f4eedb;
-  --muted: rgba(244,238,219,.58);
-  --muted2: rgba(244,238,219,.35);
-  --line: rgba(212,175,55,.16);
-  --line-strong: rgba(212,175,55,.32);
-  --green: #7dd28c;
-  --red: #e07a7a;
-  --radius: 14px;
-  --ease: cubic-bezier(.2,.7,.2,1);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
-.serif{font-family:'Playfair Display',Georgia,serif}
-.mono{font-family:'JetBrains Mono',monospace;font-feature-settings:"tnum"}
-.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
-section{padding:100px 0;position:relative}
-@media(max-width:640px){section{padding:70px 0}}
-
-/* Eyebrow */
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:10px}
-.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);display:inline-block}
-
-/* Type */
-h1,h2,h3,h4{font-weight:800;letter-spacing:-.02em;margin:0}
-h1{font-family:'Playfair Display',serif;font-size:clamp(48px,7.5vw,104px);line-height:.98;font-weight:900}
-h2{font-family:'Playfair Display',serif;font-size:clamp(34px,4.8vw,62px);line-height:1.05;font-weight:700}
-h3{font-size:clamp(20px,2vw,26px);line-height:1.2}
-.lead{color:var(--muted);font-size:18px;max-width:62ch}
-em.gold{font-style:italic;color:var(--gold-bright);font-weight:500}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:10px;font-weight:700;font-size:14px;letter-spacing:.02em;transition:transform .2s var(--ease),filter .2s var(--ease),background .2s var(--ease)}
-.btn-primary{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1306;box-shadow:0 10px 30px rgba(212,175,55,.28),inset 0 1px 0 rgba(255,255,255,.35)}
-.btn-primary:hover{transform:translateY(-1px);filter:brightness(1.05)}
-.btn-ghost{border:1px solid var(--line-strong);color:var(--text);background:rgba(255,255,255,.02)}
-.btn-ghost:hover{background:rgba(212,175,55,.08)}
-
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 24px;background:rgba(6,6,5,.6);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid var(--line)}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:38px;height:38px;object-fit:contain}
-.brand .name{font-weight:900;letter-spacing:.06em;font-size:15px}
-.brand .name .light{color:var(--gold-bright);font-weight:400}
-nav.primary{display:flex;gap:6px;align-items:center}
-nav.primary a{padding:8px 14px;font-size:13px;font-weight:500;color:var(--muted);border-radius:8px;transition:color .2s,background .2s}
-nav.primary a:hover{color:var(--text);background:rgba(255,255,255,.03)}
-nav.primary a.cta{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1306;font-weight:700;box-shadow:0 4px 16px rgba(212,175,55,.25)}
-nav.primary a.cta:hover{filter:brightness(1.05);color:#1a1306}
-.menu-toggle{display:none;width:40px;height:40px;border-radius:8px;border:1px solid var(--line);align-items:center;justify-content:center}
-.menu-toggle svg{width:20px;height:20px;stroke:var(--text)}
-@media(max-width:860px){
-  nav.primary{display:none;position:absolute;top:64px;left:16px;right:16px;flex-direction:column;align-items:stretch;padding:10px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
-  nav.primary.open{display:flex}
-  nav.primary a{text-align:left;padding:12px 14px}
-  .menu-toggle{display:inline-flex}
-}
-
-/* Hero */
-.hero{min-height:100vh;display:flex;align-items:center;padding-top:120px;padding-bottom:60px;position:relative;overflow:hidden;background:radial-gradient(1000px 500px at 50% 20%,rgba(212,175,55,.1),transparent 60%)}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px;max-width:520px}
-.stat{padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
-.stat .n{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--gold-bright)}
-.stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.16em;margin-top:4px}
-
-/* Medallion */
-.medallion{position:relative;aspect-ratio:1/1;max-width:480px;margin-left:auto;display:grid;place-items:center}
-.medallion::before{content:"";position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(244,212,122,.2),transparent 55%),radial-gradient(circle,rgba(212,175,55,.1),transparent 65%);filter:blur(10px)}
-.medallion .ring{position:absolute;inset:8%;border-radius:50%;border:1px solid rgba(212,175,55,.15);animation:spin 60s linear infinite}
-.medallion .ring::before,.medallion .ring::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 18px rgba(212,175,55,.6)}
-.medallion .ring::before{top:-4px;left:50%;transform:translateX(-50%)}
-.medallion .ring::after{bottom:-4px;left:50%;transform:translateX(-50%)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.medallion .logo-img{position:relative;width:82%;height:auto;filter:drop-shadow(0 20px 50px rgba(212,175,55,.3))}
-
-/* Live pill */
-.live{display:inline-flex;align-items:center;gap:10px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:24px}
-.live .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* Social strip */
-.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;background:var(--bg2)}
-.strip-inner{display:flex;justify-content:space-around;flex-wrap:wrap;gap:16px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.strip-inner b{color:var(--gold);margin-right:6px}
-
-/* Responsible gambling band */
-.rg-band{background:linear-gradient(180deg,rgba(195,71,58,.06),transparent);padding:16px 0;border-top:1px solid rgba(195,71,58,.15);border-bottom:1px solid rgba(195,71,58,.15)}
-.rg-band .wrap{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted);text-align:center}
-.rg-band strong{color:var(--text)}
-
-/* About */
-.about{background:linear-gradient(180deg,transparent,rgba(212,175,55,.03) 50%,transparent)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
-.dropcap::first-letter{font-family:'Playfair Display',serif;font-weight:900;font-size:76px;float:left;line-height:.85;padding:8px 10px 0 0;color:var(--gold-bright)}
-.pillars{display:grid;gap:14px}
-.pillar{padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel),var(--bg2));display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;transition:transform .2s,border-color .2s}
-.pillar:hover{transform:translateY(-2px);border-color:var(--line-strong)}
-.pillar .ico{width:44px;height:44px;border-radius:10px;background:radial-gradient(circle at 30% 30%,var(--gold-bright),var(--gold-deep));display:grid;place-items:center;color:#1a1306}
-.pillar h4{font-size:15px;margin-bottom:4px}
-.pillar p{color:var(--muted);font-size:14px;margin:0}
-
-/* Section head */
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap}
-.section-head .left{max-width:620px}
-.section-head .left p{color:var(--muted);margin-top:10px}
-.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-strong);color:var(--gold)}
-
-/* Picks */
-.picks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:980px){.picks-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.picks-grid{grid-template-columns:1fr}}
-.pick{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:22px;background:linear-gradient(180deg,var(--panel),var(--bg2));overflow:hidden;transition:transform .25s var(--ease),border-color .25s var(--ease)}
-.pick:hover{transform:translateY(-2px);border-color:var(--line-strong)}
-.pick .sport{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-.pick .match{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin:10px 0 6px;line-height:1.2}
-.pick .detail{color:var(--muted);font-size:13px}
-.pick .bet-row{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline}
-.pick .bet-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.16em}
-.pick .bet-value{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold-bright);font-size:17px}
-.pick.locked::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,5,.1) 0%,rgba(6,6,5,.75) 55%,rgba(6,6,5,.92) 100%);pointer-events:none}
-.pick .lock-overlay{position:absolute;left:0;right:0;bottom:0;padding:18px;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line-strong);background:linear-gradient(180deg,transparent,rgba(6,6,5,.85))}
-.pick .lock-overlay .label{display:inline-flex;align-items:center;gap:8px;color:var(--gold-bright);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.pick .lock-overlay .label svg{width:14px;height:14px}
-.pick .lock-overlay a{font-size:12px;color:var(--text);text-decoration:underline;text-decoration-color:var(--gold)}
-
-/* Pull quote */
-.pull{padding:60px 0;margin:0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);text-align:center;background:var(--bg)}
-.pull blockquote{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(22px,3vw,36px);line-height:1.35;max-width:900px;margin:0 auto;color:var(--text)}
-.pull cite{display:block;margin-top:18px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-style:normal;font-family:'Inter',sans-serif}
-
-/* Markets */
-.markets-section{background:var(--bg2)}
-.markets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-@media(max-width:780px){.markets-grid{grid-template-columns:1fr}}
-.market-card{border:1px solid var(--line);border-radius:var(--radius);padding:22px;background:linear-gradient(180deg,var(--panel),var(--bg2));transition:border-color .2s}
-.market-card:hover{border-color:var(--line-strong)}
-.market-card .src{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.market-card .src .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
-.market-card h4{font-family:'Playfair Display',serif;margin:10px 0 14px;font-size:19px;line-height:1.3;font-weight:700}
-.market-bar{height:10px;border-radius:999px;overflow:hidden;background:rgba(224,122,122,.2);border:1px solid var(--line);display:flex}
-.market-bar .yes{background:linear-gradient(90deg,var(--gold-bright),var(--gold));height:100%}
-.market-meta{display:flex;justify-content:space-between;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px}
-.market-meta .y{color:var(--gold-bright)}
-.market-meta .no{color:var(--muted)}
-.market-card .joe{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap;gap:6px}
-.market-card .joe strong{color:var(--text)}
-
-/* Record */
-.record-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-@media(max-width:900px){.record-grid{grid-template-columns:repeat(2,1fr)}}
-.big-stat{padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel),var(--bg2));position:relative;overflow:hidden;transition:border-color .2s}
-.big-stat:hover{border-color:var(--line-strong)}
-.big-stat .n{font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;letter-spacing:-.02em;color:var(--gold-bright)}
-.big-stat .l{color:var(--muted);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-top:4px}
-.big-stat .trend{position:absolute;top:18px;right:18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green)}
-.chart-wrap{margin-top:22px;padding:26px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel),var(--bg2))}
-.chart-wrap h4{margin-bottom:14px;font-size:14px;color:var(--muted);font-weight:500;letter-spacing:.12em;text-transform:uppercase}
-.chart{width:100%;height:200px}
-
-/* Membership */
-.membership{background:radial-gradient(900px 500px at 50% 20%,rgba(212,175,55,.08),transparent 60%)}
-.tier{max-width:520px;margin:0 auto;position:relative;border:1px solid var(--line-strong);border-radius:var(--radius);padding:40px;background:linear-gradient(180deg,rgba(212,175,55,.06),var(--bg2));display:flex;flex-direction:column;gap:18px}
-.tier::before{content:"MEMBER PLAN";position:absolute;top:-11px;right:18px;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1306;font-size:10px;font-weight:800;letter-spacing:.14em;padding:5px 12px;border-radius:4px}
-.tier h3{font-family:'Playfair Display',serif;font-size:26px;font-weight:700}
-.tier .price{display:flex;align-items:baseline;gap:8px}
-.tier .price .amt{font-size:56px;font-weight:900;color:var(--gold-bright);letter-spacing:-.03em;font-family:'JetBrains Mono',monospace;line-height:1}
-.tier .price .per{color:var(--muted);font-size:13px;margin-left:6px;letter-spacing:.06em}
-.tier ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.tier li{font-size:14.5px;color:var(--text);padding-left:24px;position:relative}
-.tier li::before{content:"";position:absolute;left:0;top:8px;width:10px;height:10px;background:var(--gold);clip-path:polygon(20% 50%,0% 70%,40% 100%,100% 30%,80% 20%,40% 60%)}
-
-/* FAQ */
-.faq-section{background:var(--bg2)}
-.faq{max-width:760px;margin:0 auto;display:grid;gap:10px}
-.qa{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.qa summary{list-style:none;cursor:pointer;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:16px}
-.qa summary::-webkit-details-marker{display:none}
-.qa summary::after{content:"+";color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:400;font-size:22px;transition:transform .2s}
-.qa[open] summary::after{transform:rotate(45deg)}
-.qa .a{padding:0 24px 22px;color:var(--muted);font-size:15px;line-height:1.65}
-
-/* Paddock (forum) */
-.forum-shell{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--panel);display:grid;grid-template-columns:240px 1fr;min-height:480px}
-@media(max-width:900px){.forum-shell{grid-template-columns:1fr}}
-.forum-side{border-right:1px solid var(--line);padding:20px 16px;background:var(--panel2)}
-@media(max-width:900px){.forum-side{border-right:0;border-bottom:1px solid var(--line)}}
-.forum-side .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:14px 6px 8px}
-.channel{display:flex;justify-content:space-between;align-items:center;padding:9px 10px;border-radius:8px;font-size:14px;color:var(--text);transition:background .15s}
-.channel:hover{background:rgba(255,255,255,.03)}
-.channel.active{background:rgba(212,175,55,.08);color:var(--gold-bright)}
-.channel .hash{color:var(--muted2);margin-right:4px}
-.channel .count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
-.forum-main{padding:22px;display:flex;flex-direction:column}
-.forum-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px}
-.forum-top h3{font-family:'Playfair Display',serif;font-size:20px}
-.forum-top .sub{color:var(--muted);font-size:13px}
-.thread-list{display:grid;gap:12px}
-.thread{padding:16px;border-radius:10px;background:var(--bg2);border:1px solid transparent;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center;transition:border-color .2s}
-.thread:hover{border-color:var(--line-strong)}
-.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));display:grid;place-items:center;font-weight:800;font-size:13px;color:#1a1306}
-.thread .title{font-weight:600;font-size:14px}
-.thread .meta{color:var(--muted);font-size:12px;margin-top:2px}
-.thread .replies{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold)}
-.composer{margin-top:auto;padding-top:16px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:10px}
-.composer input{background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:10px;font-family:inherit;font-size:14px}
-.composer input:focus{outline:none;border-color:var(--line-strong)}
-
-/* Contact */
-.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px}
-@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
-.form-field{display:grid;gap:6px;margin-bottom:14px}
-.form-field label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.form-field input,.form-field textarea{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:10px;font-family:inherit;font-size:14px;transition:border-color .2s}
-.form-field textarea{min-height:120px;resize:vertical}
-.form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--line-strong)}
-.socials{display:grid;gap:10px}
-.social{display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--panel),var(--bg2));transition:border-color .2s,transform .2s}
-.social:hover{border-color:var(--line-strong);transform:translateX(2px)}
-.social .slabel{display:flex;align-items:center;gap:12px}
-.social .ico{width:36px;height:36px;border-radius:10px;background:rgba(212,175,55,.08);display:grid;place-items:center;color:var(--gold)}
-.social .handle{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:13px}
-
-/* Footer */
-footer{padding:60px 0 40px;border-top:1px solid var(--line);background:var(--bg2)}
-.foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:40px}
-@media(max-width:780px){.foot-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.foot-grid{grid-template-columns:1fr}}
-footer h5{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 14px;font-family:'JetBrains Mono',monospace;font-weight:700}
-footer a{display:block;color:var(--muted);font-size:13px;padding:5px 0}
-footer a:hover{color:var(--text)}
-.legal{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted2);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-
-/* Modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
-.modal-backdrop.open{display:flex;animation:fade .2s var(--ease)}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.modal-wrapper{position:relative;width:100%;max-width:880px}
-.modal{width:100%;max-width:880px;max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius);display:grid;grid-template-columns:1fr 1fr;gap:0}
-@media(max-width:780px){.modal{grid-template-columns:1fr}}
-.modal .left{padding:30px;border-right:1px solid var(--line);background:var(--bg2)}
-@media(max-width:780px){.modal .left{border-right:0;border-bottom:1px solid var(--line)}}
-.modal .right{padding:30px}
-.modal h3{font-family:'Playfair Display',serif;margin-bottom:10px;font-size:24px;font-weight:700}
-.order-line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
-.order-line.total{font-weight:800;color:var(--gold-bright);border-bottom:0;margin-top:8px;font-size:17px}
-.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.pay-btn{padding:12px;border:1px solid var(--line);border-radius:10px;font-weight:700;font-size:13px;background:var(--bg2);color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px}
-.pay-btn:hover{border-color:var(--line-strong)}
-.divider{display:flex;align-items:center;gap:12px;color:var(--muted2);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:12px 0}
-.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
-.card-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.modal .close{position:absolute;top:14px;right:18px;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;z-index:10;background:none;border:none}
-
-/* Reveal */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.reveal.in{opacity:1;transform:translateY(0)}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JoeBets — Sharp picks for the combat sports bettor</title>
+<meta name="description" content="JoeBets delivers data-driven picks, fighter analytics, and live event tracking. Free account gets you community access. Gold Ticket unlocks the full playbook.">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body>
 
-<!-- NAV -->
-<header class="nav">
-  <div class="nav-inner">
-    <a href="#home" class="brand">
-      <img src="./logo.svg" alt="Joe Bets"/>
-      <div class="name">JOE <span class="light">BETS</span></div>
+<!-- ─── Nav ─── -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-brand">
+      <img src="/logo.png" alt="JoeBets">
     </a>
-    <nav class="primary" id="primaryNav">
-      <a href="#about">About</a>
-      <a href="#picks">Today's Card</a>
-      <a href="#markets">Markets</a>
-      <a href="#record">Track Record</a>
-      <a href="#paddock">Community</a>
-      <a href="#contact">Contact</a>
-      <a href="#membership" class="cta" onclick="event.preventDefault(); openCheckout();">Get Gold Ticket</a>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu" onclick="document.getElementById('primaryNav').classList.toggle('open')">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#preview">What's inside</a>
+      <a href="#pricing">Membership</a>
+      <a href="/app.html">Dashboard</a>
+    </div>
+    <div class="nav-cta">
+      <button class="btn btn-ghost" onclick="openAuth('free')">Sign in</button>
+      <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<header class="hero">
+  <div class="container hero-inner">
+    <img src="/logo.png" alt="JoeBets" class="hero-logo">
+    <span class="eyebrow">Sharp picks · Live data · No noise</span>
+    <h1>Bet smarter on the fights that matter.</h1>
+    <p class="sub">Data-driven picks on every major UFC, boxing, and combat sports card — backed by fighter-level analytics you won't find anywhere else.</p>
+    <div class="cta-row">
+      <button class="btn btn-primary btn-lg" onclick="openAuth('gold')">Get the Gold Ticket</button>
+      <button class="btn btn-ghost btn-lg" onclick="openAuth('free')">Create free account</button>
+    </div>
   </div>
 </header>
 
-<!-- HERO -->
-<section id="home" class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="live"><span class="dot"></span> Live · tonight's card is up</div>
-      <h1>Bet the <em class="gold">sharp side.</em></h1>
-      <p class="lead" style="margin-top:20px;">
-        Nightly Gold Picks across UFC, boxing, the NBA, the NFL, and prediction markets.
-        Every play written up with the number, the reasoning, and the unit sizing.
-        Tracked, audited, and posted same night.
-      </p>
-      <div class="hero-actions">
-        <a href="#membership" class="btn btn-primary" onclick="event.preventDefault(); openCheckout();">
-          Get the Gold Ticket
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-5-5l5 5-5 5"/></svg>
-        </a>
-        <a href="#picks" class="btn btn-ghost" onclick="event.preventDefault(); smoothTo('#picks');">See Today's Picks</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><div class="n">+218u</div><div class="l">YTD Units</div></div>
-        <div class="stat"><div class="n">62%</div><div class="l">Combat Win Rate</div></div>
-        <div class="stat"><div class="n">312</div><div class="l">Plays Tracked</div></div>
-      </div>
-    </div>
-    <div class="medallion">
-      <div class="ring" aria-hidden="true"></div>
-      <img class="logo-img" src="./logo.svg" alt="Joe Bets"/>
-    </div>
-  </div>
-</section>
-
-<!-- Responsible gambling -->
-<div class="rg-band">
-  <div class="wrap">
-    <span><strong>21+.</strong> Picks are for informational purposes. Bet responsibly. Problem? Call <strong>1-800-GAMBLER</strong>.</span>
-  </div>
-</div>
-
-<!-- Social strip -->
-<div class="strip">
-  <div class="strip-inner wrap">
-    <span><b>UFC</b> Combat</span>
-    <span><b>Boxing</b> Main Events</span>
-    <span><b>NBA</b> Select Spots</span>
-    <span><b>NFL</b> Sundays &amp; Primetime</span>
-    <span><b>Polymarket</b> + Kalshi</span>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="wrap about-grid">
-    <div>
-      <span class="eyebrow">The Stable</span>
-      <h2 style="margin-top:16px;">No fluff. Just plays that hit.</h2>
-      <p class="lead dropcap" style="margin-top:18px;">
-        Combat sports is home. UFC, boxing, kickboxing, the regional circuits. I also work the NBA, the NFL, and event-driven markets like Polymarket and Kalshi. Every Gold Pick comes with a full write-up: the number, the reasoning, and the unit sizing — so you know exactly what and why.
-      </p>
-      <p class="lead" style="margin-top:14px;">
-        No tail trains, no spray-and-pray slates, no emotional chases after a bad beat. A disciplined card, every night.
-      </p>
-    </div>
-    <div class="pillars">
-      <div class="pillar">
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5z"/></svg></div>
-        <div><h4>Discipline first</h4><p>Unit-sized plays, no chasing, no tailing the room.</p></div>
-      </div>
-      <div class="pillar">
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v4H4zm0 6h10v10H4zm12 0h4v10h-4z"/></svg></div>
-        <div><h4>Transparent record</h4><p>Every ticket logged. You see the wins and the losses.</p></div>
-      </div>
-      <div class="pillar">
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
-        <div><h4>Combat edge</h4><p>Deep film study on fighters most cappers never watch.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PICKS -->
-<section id="picks">
-  <div class="wrap">
+<!-- ─── How it works ─── -->
+<section id="how">
+  <div class="container">
     <div class="section-head">
-      <div class="left">
-        <span class="eyebrow">Today's Gold Picks</span>
-        <h2 style="margin-top:12px;">The plays I'm on tonight.</h2>
-        <p>One free preview per card. Gold Ticket holders get the full slate with reasoning, unit sizing, and live in-play alerts.</p>
+      <span class="eyebrow">How it works</span>
+      <h2>From card to cashed ticket in three steps.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>We track every card</h3>
+        <p>Live schedules from UFC, Bellator, PFL, and major boxing promotions — pulled in real time. Fighter stats sourced from Tapology and verified.</p>
       </div>
-      <div><span class="tag">6 plays · 9.5 units</span></div>
-    </div>
-
-    <div class="picks-grid">
-      <article class="pick">
-        <span class="sport">UFC · Main Card</span>
-        <div class="match">Aguilar vs. Mendes</div>
-        <div class="detail">Round 3 start · heavy grappler vs. volume striker</div>
-        <div class="bet-row"><span class="bet-label">Pick</span><span class="bet-value">Aguilar ML</span></div>
-        <div class="bet-row"><span class="bet-label">Size</span><span class="bet-value">2.0u</span></div>
-      </article>
-
-      <article class="pick locked">
-        <span class="sport">Boxing · PPV</span>
-        <div class="match">Reyes vs. Okafor</div>
-        <div class="detail">12 rounds · champion returning after injury</div>
-        <div class="bet-row"><span class="bet-label">Pick</span><span class="bet-value">· · ·</span></div>
-        <div class="bet-row"><span class="bet-label">Size</span><span class="bet-value">·</span></div>
-        <div class="lock-overlay">
-          <span class="label"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10V8a6 6 0 1 1 12 0v2h1v12H5V10h1zm2 0h8V8a4 4 0 1 0-8 0v2z"/></svg>Gold Ticket only</span>
-          <a href="#membership" onclick="event.preventDefault(); openCheckout();">Unlock</a>
-        </div>
-      </article>
-
-      <article class="pick locked">
-        <span class="sport">NBA · Primetime</span>
-        <div class="match">Nuggets vs. Thunder</div>
-        <div class="detail">Game 4 · pace and altitude angle</div>
-        <div class="bet-row"><span class="bet-label">Pick</span><span class="bet-value">· · ·</span></div>
-        <div class="bet-row"><span class="bet-label">Size</span><span class="bet-value">·</span></div>
-        <div class="lock-overlay">
-          <span class="label"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10V8a6 6 0 1 1 12 0v2h1v12H5V10h1zm2 0h8V8a4 4 0 1 0-8 0v2z"/></svg>Gold Ticket only</span>
-          <a href="#membership" onclick="event.preventDefault(); openCheckout();">Unlock</a>
-        </div>
-      </article>
-
-      <article class="pick locked">
-        <span class="sport">NFL Futures</span>
-        <div class="match">AFC West Winner</div>
-        <div class="detail">Season-long position · value on +EV longshot</div>
-        <div class="bet-row"><span class="bet-label">Pick</span><span class="bet-value">· · ·</span></div>
-        <div class="bet-row"><span class="bet-label">Size</span><span class="bet-value">·</span></div>
-        <div class="lock-overlay">
-          <span class="label"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10V8a6 6 0 1 1 12 0v2h1v12H5V10h1zm2 0h8V8a4 4 0 1 0-8 0v2z"/></svg>Gold Ticket only</span>
-          <a href="#membership" onclick="event.preventDefault(); openCheckout();">Unlock</a>
-        </div>
-      </article>
-
-      <article class="pick locked">
-        <span class="sport">Kickboxing · GLORY</span>
-        <div class="match">Van Roon vs. Petrov</div>
-        <div class="detail">Method prop · KO/TKO angle</div>
-        <div class="bet-row"><span class="bet-label">Pick</span><span class="bet-value">· · ·</span></div>
-        <div class="bet-row"><span class="bet-label">Size</span><span class="bet-value">·</span></div>
-        <div class="lock-overlay">
-          <span class="label"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10V8a6 6 0 1 1 12 0v2h1v12H5V10h1zm2 0h8V8a4 4 0 1 0-8 0v2z"/></svg>Gold Ticket only</span>
-          <a href="#membership" onclick="event.preventDefault(); openCheckout();">Unlock</a>
-        </div>
-      </article>
-
-      <article class="pick locked">
-        <span class="sport">UFC · Prelims</span>
-        <div class="match">Chen vs. Dal Santos</div>
-        <div class="detail">Round 1 ITD · hand-speed mismatch</div>
-        <div class="bet-row"><span class="bet-label">Pick</span><span class="bet-value">· · ·</span></div>
-        <div class="bet-row"><span class="bet-label">Size</span><span class="bet-value">·</span></div>
-        <div class="lock-overlay">
-          <span class="label"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10V8a6 6 0 1 1 12 0v2h1v12H5V10h1zm2 0h8V8a4 4 0 1 0-8 0v2z"/></svg>Gold Ticket only</span>
-          <a href="#membership" onclick="event.preventDefault(); openCheckout();">Unlock</a>
-        </div>
-      </article>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>We break down matchups</h3>
+        <p>Every fight gets its own breakdown — striking stats, grappling history, camp intel, line movement. We show our work.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>You place sharp bets</h3>
+        <p>Gold Ticket holders get the picks, the sizing logic, and historical performance — in time to shop for the best line.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Pull quote -->
-<section class="pull">
-  <div class="wrap">
-    <blockquote>"The edge isn't in knowing who wins. It's in knowing when the market's gotten the shape of a fight wrong."</blockquote>
-    <cite>From the editor's notes</cite>
-  </div>
-</section>
-
-<!-- MARKETS -->
-<section id="markets" class="markets-section">
-  <div class="wrap">
+<!-- ─── What's inside ─── -->
+<section id="preview">
+  <div class="container">
     <div class="section-head">
-      <div class="left">
-        <span class="eyebrow">Prediction Markets</span>
-        <h2 style="margin-top:12px;">Polymarket &amp; Kalshi positions.</h2>
-        <p>Event-driven plays where the crowd is mispricing. Tracked publicly in units on notional.</p>
+      <span class="eyebrow">What's inside</span>
+      <h2>A preview of this week's slate.</h2>
+      <p>Free members see matchups and public stats. Gold Ticket unlocks picks, sizing, and the full breakdown.</p>
+    </div>
+    <div class="preview-wrap">
+      <div class="event-card locked">
+        <span class="lock-badge">GOLD</span>
+        <div class="league">UFC · Main card</div>
+        <div class="matchup">Pereira vs. Ankalaev</div>
+        <div class="meta">Saturday · UFC 320 · Las Vegas</div>
+        <div class="pick">
+          <span class="label">Pick</span>
+          Pereira by KO, Rd 2 — 3u
+        </div>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <span class="tag">Polymarket</span>
-        <span class="tag">Kalshi</span>
+      <div class="event-card locked">
+        <span class="lock-badge">GOLD</span>
+        <div class="league">UFC · Co-main</div>
+        <div class="matchup">Dvalishvili vs. Sandhagen</div>
+        <div class="meta">Saturday · UFC 320 · Las Vegas</div>
+        <div class="pick">
+          <span class="label">Pick</span>
+          Dvalishvili ITD — 2u
+        </div>
+      </div>
+      <div class="event-card locked">
+        <span class="lock-badge">GOLD</span>
+        <div class="league">Boxing · Main event</div>
+        <div class="matchup">Crawford vs. Madrimov</div>
+        <div class="meta">Saturday · DAZN PPV</div>
+        <div class="pick">
+          <span class="label">Pick</span>
+          Over 8.5 rounds — 2u
+        </div>
       </div>
     </div>
-
-    <div class="markets-grid">
-      <article class="market-card">
-        <div class="src"><span class="dot"></span>Polymarket · Sports</div>
-        <h4>Will the reigning UFC heavyweight champion hold the belt on Dec 31?</h4>
-        <div class="market-bar"><div class="yes" style="width:63%"></div></div>
-        <div class="market-meta"><span class="y">YES · 63¢</span><span class="no">NO · 37¢</span></div>
-        <div class="joe"><span>Joe is <strong>on YES</strong> · 1.5u notional</span><span style="color:var(--gold)">+11% MTM</span></div>
-      </article>
-      <article class="market-card">
-        <div class="src"><span class="dot"></span>Kalshi · Culture</div>
-        <h4>Will a rematch be announced for the welterweight title by Memorial Day?</h4>
-        <div class="market-bar"><div class="yes" style="width:28%"></div></div>
-        <div class="market-meta"><span class="y">YES · 28¢</span><span class="no">NO · 72¢</span></div>
-        <div class="joe"><span>Joe is <strong>on YES</strong> · 1.0u notional</span><span style="color:var(--gold)">Open</span></div>
-      </article>
-      <article class="market-card">
-        <div class="src"><span class="dot"></span>Polymarket · Sports</div>
-        <h4>Will the Lakers make the NBA Finals this season?</h4>
-        <div class="market-bar"><div class="yes" style="width:19%"></div></div>
-        <div class="market-meta"><span class="y">YES · 19¢</span><span class="no">NO · 81¢</span></div>
-        <div class="joe"><span>Joe is <strong>on NO</strong> · 2.0u notional</span><span style="color:var(--green)">+22% MTM</span></div>
-      </article>
-      <article class="market-card">
-        <div class="src"><span class="dot"></span>Kalshi · Events</div>
-        <h4>Will Super Bowl LXI average over 125M viewers?</h4>
-        <div class="market-bar"><div class="yes" style="width:47%"></div></div>
-        <div class="market-meta"><span class="y">YES · 47¢</span><span class="no">NO · 53¢</span></div>
-        <div class="joe"><span>Joe is <strong>on YES</strong> · 0.5u notional</span><span style="color:var(--muted)">Watching</span></div>
-      </article>
-    </div>
+    <p style="text-align:center; margin-top:36px; color:var(--ink-faint);">Preview data — live events appear on the <a href="/app.html">dashboard</a>.</p>
   </div>
 </section>
 
-<!-- RECORD -->
-<section id="record">
-  <div class="wrap">
+<!-- ─── Pricing / tiers ─── -->
+<section id="pricing">
+  <div class="container">
     <div class="section-head">
-      <div class="left">
-        <span class="eyebrow">Track Record · YTD</span>
-        <h2 style="margin-top:12px;">Every ticket, receipt on file.</h2>
-        <p>Logged in units. A unit equals 1% of your bankroll. The sizing matters as much as the pick.</p>
-      </div>
+      <span class="eyebrow">Membership</span>
+      <h2>Three ways to watch. One way to win.</h2>
     </div>
-    <div class="record-grid">
-      <div class="big-stat"><div class="trend">▲ 12.4u / 30d</div><div class="n">+218.3u</div><div class="l">Total YTD</div></div>
-      <div class="big-stat"><div class="trend">▲ 3.1%</div><div class="n">58.4%</div><div class="l">Win Rate</div></div>
-      <div class="big-stat"><div class="trend">▲ 0.22</div><div class="n">+16.2%</div><div class="l">ROI</div></div>
-      <div class="big-stat"><div class="n">312</div><div class="l">Plays Logged</div></div>
-    </div>
+    <div class="tiers">
 
-    <div class="chart-wrap">
-      <h4>Units over time</h4>
-      <svg class="chart" viewBox="0 0 800 200" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stop-color="#d4af37" stop-opacity="0.5"/>
-            <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="chartLine" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0%" stop-color="#f4d47a"/>
-            <stop offset="100%" stop-color="#d4af37"/>
-          </linearGradient>
-        </defs>
-        <g stroke="rgba(212,175,55,0.08)">
-          <line x1="0" y1="50" x2="800" y2="50"/>
-          <line x1="0" y1="100" x2="800" y2="100"/>
-          <line x1="0" y1="150" x2="800" y2="150"/>
-        </g>
-        <path d="M0 170 L40 160 L80 150 L120 155 L160 140 L200 130 L240 132 L280 118 L320 108 L360 112 L400 95 L440 80 L480 88 L520 70 L560 58 L600 62 L640 45 L680 40 L720 28 L760 22 L800 18 L800 200 L0 200 Z" fill="url(#chartFill)"/>
-        <path d="M0 170 L40 160 L80 150 L120 155 L160 140 L200 130 L240 132 L280 118 L320 108 L360 112 L400 95 L440 80 L480 88 L520 70 L560 58 L600 62 L640 45 L680 40 L720 28 L760 22 L800 18" fill="none" stroke="url(#chartLine)" stroke-width="2.5"/>
-      </svg>
+      <div class="tier">
+        <h3>Visitor</h3>
+        <div class="price">Free<span class="unit"> · no account</span></div>
+        <ul>
+          <li>Browse upcoming cards</li>
+          <li>See matchups and public stats</li>
+          <li class="muted">Community access</li>
+          <li class="muted">Picks and analysis</li>
+          <li class="muted">Sizing &amp; bankroll tools</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="location.href='/app.html'">Browse the dashboard</button>
+      </div>
+
+      <div class="tier">
+        <h3>Free account</h3>
+        <div class="price">$0<span class="unit"> / forever</span></div>
+        <ul>
+          <li>Everything in Visitor</li>
+          <li>Community forum access</li>
+          <li>Save favorite fighters</li>
+          <li>Weekly free pick of the week</li>
+          <li class="muted">Full picks and analysis</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="openAuth('free')">Create free account</button>
+      </div>
+
+      <div class="tier featured">
+        <h3>Gold Ticket</h3>
+        <div class="price">$29<span class="unit"> / month</span></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>All picks, with sizing &amp; reasoning</li>
+          <li>Fighter deep-dive analytics</li>
+          <li>Parlay &amp; prop plays</li>
+          <li>Historical performance tracking</li>
+        </ul>
+        <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold Ticket</button>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- MEMBERSHIP -->
-<section id="membership" class="membership">
-  <div class="wrap">
-    <div class="section-head" style="justify-content:center;text-align:center">
-      <div class="left" style="max-width:none;text-align:center">
-        <span class="eyebrow" style="justify-content:center">The Gold Ticket</span>
-        <h2 style="margin-top:12px;">One ticket. <em class="gold">Every play.</em></h2>
-        <p style="margin:10px auto 0">Flat monthly membership. Cancel anytime. No upsells.</p>
-      </div>
-    </div>
-
-    <div class="tier">
-      <h3>Gold Ticket · Monthly</h3>
-      <div class="price"><span class="amt">$55</span><span class="per">USD / month + tax</span></div>
-      <ul>
-        <li>Every Gold Pick, every night</li>
-        <li>Combat · NBA · NFL · Prediction markets</li>
-        <li>Full write-ups with reasoning and unit sizing</li>
-        <li>Live in-play alerts</li>
-        <li>The Paddock community access</li>
-        <li>Full pick history and track record</li>
-        <li>Cancel anytime</li>
-      </ul>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;padding:16px" onclick="openCheckout()">Get Gold Ticket · $55/mo</button>
-      <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:4px">Secured by Stripe · 21+ only · No free trial</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="faq-section">
-  <div class="wrap">
-    <div class="section-head" style="justify-content:center;text-align:center">
-      <div class="left" style="max-width:none;text-align:center">
-        <span class="eyebrow" style="justify-content:center">Questions</span>
-        <h2 style="margin-top:12px;">The usual ones, answered.</h2>
-      </div>
-    </div>
-    <div class="faq">
-      <details class="qa"><summary>Is there a free trial?</summary><div class="a">No. The value is in the picks themselves, not a 7-day demo. If it's not for you after a month, cancel in one click.</div></details>
-      <details class="qa"><summary>What sports are covered?</summary><div class="a">Combat sports are the core: UFC and boxing specifically. NBA and NFL when the edge is there. Plus a standing prediction-markets section for Polymarket and Kalshi plays.</div></details>
-      <details class="qa"><summary>How many picks per day?</summary><div class="a">Volume is whatever the board gives. Some days four or five plays. Some days one. Sometimes zero. Patience is the whole game.</div></details>
-      <details class="qa"><summary>How do I get the picks?</summary><div class="a">Posted directly in the member area with a live alert. You'll see the line, the stake, and the full reasoning same-night, typically before the public money moves.</div></details>
-      <details class="qa"><summary>Can I cancel?</summary><div class="a">Anytime, one click in your account. Billing stops at the next cycle.</div></details>
-      <details class="qa"><summary>Do you guarantee wins?</summary><div class="a">No. Nobody who's honest does. What you get is disciplined picks, unit sizing, and a real audited record. Bet what you can afford to lose.</div></details>
-    </div>
-  </div>
-</section>
-
-<!-- PADDOCK -->
-<section id="paddock">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="left">
-        <span class="eyebrow">The Paddock · Community</span>
-        <h2 style="margin-top:12px;">Where the room talks shop.</h2>
-        <p>Members-only forum for discussing the card, sharing film, and calling out each other's bad beats.</p>
-      </div>
-    </div>
-
-    <div class="forum-shell">
-      <aside class="forum-side">
-        <div class="label">Channels</div>
-        <a class="channel active" href="#"><span><span class="hash">#</span>general</span><span class="count">184</span></a>
-        <a class="channel" href="#"><span><span class="hash">#</span>ufc-talk</span><span class="count">92</span></a>
-        <a class="channel" href="#"><span><span class="hash">#</span>boxing</span><span class="count">41</span></a>
-        <a class="channel" href="#"><span><span class="hash">#</span>nba-board</span><span class="count">76</span></a>
-        <a class="channel" href="#"><span><span class="hash">#</span>nfl-futures</span><span class="count">29</span></a>
-        <a class="channel" href="#"><span><span class="hash">#</span>markets</span><span class="count">54</span></a>
-      </aside>
-
-      <div class="forum-main">
-        <div class="forum-top">
-          <div>
-            <h3># general</h3>
-            <div class="sub">184 members · 12 online right now</div>
-          </div>
-          <span class="tag">Live</span>
-        </div>
-
-        <div class="thread-list">
-          <div class="thread">
-            <div class="avatar">M</div>
-            <div><div class="title">Aguilar ML value — anyone else seeing the line feel generous?</div><div class="meta">Marcus · 14 min ago</div></div>
-            <div class="replies">18</div>
-          </div>
-          <div class="thread">
-            <div class="avatar">K</div>
-            <div><div class="title">Kalshi Super Bowl viewer market: sharing my model output</div><div class="meta">Kira · 1 h ago · pinned by Joe</div></div>
-            <div class="replies">32</div>
-          </div>
-          <div class="thread">
-            <div class="avatar">J</div>
-            <div><div class="title">Film: why I think Okafor's jab is broken against southpaws</div><div class="meta">Joe · 3 h ago · 12 attachments</div></div>
-            <div class="replies">47</div>
-          </div>
-          <div class="thread">
-            <div class="avatar">D</div>
-            <div><div class="title">Bankroll check-in: how are we sizing for the PPV main?</div><div class="meta">Devon · 5 h ago</div></div>
-            <div class="replies">9</div>
-          </div>
-          <div class="thread">
-            <div class="avatar">S</div>
-            <div><div class="title">Introducing myself. Joined last week, already up 4.2u</div><div class="meta">Sana · yesterday</div></div>
-            <div class="replies">21</div>
-          </div>
-        </div>
-
-        <div class="composer">
-          <input type="text" placeholder="Share your read on tonight's card..." aria-label="Post a message"/>
-          <button class="btn btn-primary" style="padding:10px 18px;" onclick="openCheckout()">Post</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="wrap contact-grid">
-    <div>
-      <span class="eyebrow">Contact</span>
-      <h2 style="margin-top:12px;">Business, press, or just a good tip?</h2>
-      <p class="lead" style="margin-top:12px;">For membership support use the in-app help. Everything else lands here.</p>
-
-      <form style="margin-top:24px;" onsubmit="event.preventDefault(); alert('Thanks! Connect a form handler (Netlify Forms, Formspree, etc.) to receive submissions.');">
-        <div class="form-field"><label for="c-name">Name</label><input id="c-name" required name="name" type="text" placeholder="Your name"/></div>
-        <div class="form-field"><label for="c-email">Email</label><input id="c-email" required name="email" type="email" placeholder="you@email.com"/></div>
-        <div class="form-field"><label for="c-msg">Message</label><textarea id="c-msg" required name="msg" placeholder="What's up?"></textarea></div>
-        <button class="btn btn-primary" type="submit">Send</button>
-      </form>
-    </div>
-    <div>
-      <span class="eyebrow">Find me</span>
-      <h3 style="margin-top:12px;font-family:'Playfair Display',serif;font-size:26px;font-weight:700;">Socials &amp; Platforms</h3>
-      <div class="socials" style="margin-top:20px;">
-        <a class="social" href="#" target="_blank" rel="noopener">
-          <span class="slabel">
-            <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9s.7.8.9 1.4c.2.4.4 1 .4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4s-.8.7-1.4.9c-.4.2-1 .4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9s-.7-.8-.9-1.4c-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4s.8-.7 1.4-.9c.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-8.4a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></span>
-            Instagram
-          </span>
-          <span class="handle">@joebets</span>
-        </a>
-        <a class="social" href="#" target="_blank" rel="noopener">
-          <span class="slabel">
-            <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 3h3.3l-7.2 8.2L23 21h-6.6l-5.2-6.8L5.2 21H1.9l7.7-8.8L1 3h6.7l4.7 6.2L18.5 3zm-1.2 16.2h1.8L6.8 4.7H4.9l12.4 14.5z"/></svg></span>
-            X (Twitter)
-          </span>
-          <span class="handle">@joebets</span>
-        </a>
-        <a class="social" href="#" target="_blank" rel="noopener">
-          <span class="slabel">
-            <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7l-6 4v2l6 4V7zM1 5h15v14H1z"/></svg></span>
-            YouTube
-          </span>
-          <span class="handle">/joebets</span>
-        </a>
-        <a class="social" href="#" target="_blank" rel="noopener">
-          <span class="slabel">
-            <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3v18a4 4 0 1 1-4-4V9h4z"/></svg></span>
-            TikTok
-          </span>
-          <span class="handle">@joebets</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
+<!-- ─── Footer ─── -->
 <footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="brand" style="margin-bottom:12px;">
-          <img src="./logo.svg" alt="Joe Bets" style="width:38px;height:38px;object-fit:contain"/>
-          <div class="name">JOE <span class="light">BETS</span></div>
-        </div>
-        <p style="color:var(--muted);font-size:13px;max-width:320px;">Sharp picks, transparent record, and a community that actually knows fight film.</p>
-      </div>
-      <div>
-        <h5>Picks</h5>
-        <a href="#picks">Today's Card</a>
-        <a href="#markets">Markets</a>
-        <a href="#record">Track Record</a>
-      </div>
-      <div>
-        <h5>Membership</h5>
-        <a href="#membership">Gold Ticket</a>
-        <a href="#paddock">The Paddock</a>
-        <a href="#" onclick="event.preventDefault(); openCheckout();">Subscribe</a>
-      </div>
-      <div>
-        <h5>Company</h5>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-      </div>
-    </div>
-    <div class="legal">
-      <span>&copy; <span id="year"></span> Joe Bets. Plays with conviction.</span>
-      <span>21+ only. Bet responsibly. <strong>1-800-GAMBLER</strong></span>
+  <div class="container foot-row">
+    <div>© 2026 JoeBets. Bet responsibly.</div>
+    <div>
+      <a href="/app.html">Dashboard</a>
+      <a href="#pricing">Membership</a>
+      <a href="mailto:joe4ku@gmail.com">Contact</a>
     </div>
   </div>
 </footer>
 
-<!-- CHECKOUT MODAL (placeholder) -->
-<div class="modal-backdrop" id="checkout" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
-  <div class="modal-wrapper">
-    <button class="close" aria-label="Close" onclick="closeCheckout()">✕</button>
-    <div class="modal">
-      <div class="left">
-        <span class="eyebrow">Order Summary</span>
-        <h3 id="checkout-title" style="margin-top:10px;">Gold Ticket · Monthly</h3>
-        <div style="margin-top:18px;">
-          <div class="order-line"><span>Gold Ticket · Monthly</span><span>$55.00 USD</span></div>
-          <div class="order-line"><span>Taxes</span><span>Calculated at checkout</span></div>
-          <div class="order-line total"><span>Due today</span><span>$55.00 USD</span></div>
-        </div>
-        <div style="margin-top:18px;padding:14px;font-size:12px;border-radius:8px;background:rgba(212,175,55,.06);border:1px dashed var(--line-strong);color:var(--muted)">
-          Wired for <strong>Stripe Checkout</strong>. Drop in your publishable key + price ID to go live.
-        </div>
-      </div>
-      <div class="right">
-        <span class="eyebrow">Payment</span>
-        <h3 style="margin-top:10px;">Complete purchase</h3>
-        <div class="pay-methods" style="margin-top:16px;">
-          <button class="pay-btn" type="button">Apple Pay</button>
-          <button class="pay-btn" type="button">Google Pay</button>
-        </div>
-        <div class="divider">or pay with card</div>
-        <form onsubmit="event.preventDefault(); alert('Placeholder checkout. Connect Stripe to go live.');">
-          <div class="form-field"><label for="m-email">Email</label><input id="m-email" type="email" required placeholder="you@email.com"/></div>
-          <div class="form-field"><label for="m-card">Card number</label><input id="m-card" type="text" required placeholder="4242 4242 4242 4242"/></div>
-          <div class="card-row">
-            <div class="form-field"><label for="m-exp">Expiry</label><input id="m-exp" type="text" required placeholder="MM / YY"/></div>
-            <div class="form-field"><label for="m-cvc">CVC</label><input id="m-cvc" type="text" required placeholder="123"/></div>
-          </div>
-          <div class="form-field"><label for="m-name">Name on card</label><input id="m-name" type="text" required placeholder="Full name"/></div>
-          <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Punch Your Ticket · $55.00 USD</button>
-          <p style="font-size:11px;color:var(--muted2);margin-top:12px;text-align:center;">Secure checkout via Stripe. Cancel anytime. 21+ only.</p>
-        </form>
-      </div>
-    </div>
+<!-- ─── Auth modal ─── -->
+<div class="modal-bg" id="authModal" onclick="if(event.target.id==='authModal')closeAuth()">
+  <div class="modal">
+    <button class="close" onclick="closeAuth()">×</button>
+    <h3 id="authTitle">Sign in to JoeBets</h3>
+    <p id="authSub" style="margin:0 0 6px; font-size:0.95rem;">Enter your email — we'll send you a magic link.</p>
+    <form onsubmit="submitAuth(event)">
+      <input type="email" id="authEmail" placeholder="you@email.com" required autocomplete="email">
+      <button type="submit" class="btn btn-primary submit" id="authSubmit">Send magic link</button>
+    </form>
+    <div id="authMsg"></div>
+    <p class="tiny">No passwords. No spam. We'll email you a one-time sign-in link.</p>
   </div>
 </div>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  function smoothTo(sel){
-    const el = document.querySelector(sel);
-    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
-    document.getElementById('primaryNav').classList.remove('open');
+let authIntent = 'free';
+function openAuth(intent) {
+  authIntent = intent || 'free';
+  const t = document.getElementById('authTitle');
+  const s = document.getElementById('authSub');
+  const b = document.getElementById('authSubmit');
+  if (authIntent === 'gold') {
+    t.textContent = 'Get your Gold Ticket';
+    s.textContent = 'Enter your email — we\'ll create your account and send you to checkout.';
+    b.textContent = 'Continue to Stripe';
+  } else {
+    t.textContent = 'Sign in or create a free account';
+    s.textContent = 'Enter your email — we\'ll send you a magic link.';
+    b.textContent = 'Send magic link';
   }
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href');
-      if (href.length > 1 && !a.classList.contains('cta') && a.getAttribute('onclick') === null) {
-        e.preventDefault();
-        smoothTo(href);
-      }
+  document.getElementById('authMsg').innerHTML = '';
+  document.getElementById('authModal').classList.add('open');
+  setTimeout(() => document.getElementById('authEmail').focus(), 50);
+}
+function closeAuth() {
+  document.getElementById('authModal').classList.remove('open');
+}
+async function submitAuth(e) {
+  e.preventDefault();
+  const email = document.getElementById('authEmail').value.trim();
+  const msg = document.getElementById('authMsg');
+  const btn = document.getElementById('authSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Working…';
+  try {
+    const endpoint = authIntent === 'gold' ? '/.netlify/functions/checkout' : '/.netlify/functions/auth-request';
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email, tier: authIntent })
     });
-  });
-
-  function openCheckout(){
-    document.getElementById('checkout').classList.add('open');
-    document.body.style.overflow = 'hidden';
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: 'Something went wrong. Try again.' }));
+      throw new Error(error);
+    }
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+      return;
+    }
+    msg.innerHTML = '<div class="success">Check your email for the sign-in link.</div>';
+    btn.textContent = 'Sent ✓';
+  } catch (err) {
+    msg.innerHTML = '<div class="err">' + (err.message || 'Try again.') + '</div>';
+    btn.disabled = false;
+    btn.textContent = authIntent === 'gold' ? 'Continue to Stripe' : 'Send magic link';
   }
-  function closeCheckout(){
-    document.getElementById('checkout').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.getElementById('checkout').addEventListener('click', (e) => {
-    if (e.target.id === 'checkout') closeCheckout();
-  });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCheckout(); });
-
-  // Reveal animations
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('section > .wrap > *, .strip-inner, .pull .wrap').forEach(el => {
-    el.classList.add('reveal');
-    io.observe(el);
-  });
+}
+// Close on Esc
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuth(); });
 </script>
+
 </body>
 </html>
