@@ -12,34 +12,25 @@
 </head>
 <body class="dash-shell">
 
-<!-- ─── Nav ─── -->
 <nav class="nav">
   <div class="container nav-inner">
-    <a href="/" class="nav-brand">
-      <img src="/logo.png" alt="JoeBets">
-    </a>
+    <a href="/" class="nav-brand"><img src="/logo.png" alt="JoeBets"></a>
     <div class="nav-links">
       <a href="/app.html" class="active">Dashboard</a>
       <a href="/community.html">Community</a>
       <a href="/#pricing">Membership</a>
     </div>
-    <div class="nav-cta" id="navCta">
-      <button class="btn btn-ghost" onclick="openAuth('free')">Sign in</button>
-    </div>
+    <div class="nav-cta" id="navCta"></div>
   </div>
 </nav>
 
-<!-- ─── Main ─── -->
 <main class="dash-main">
   <div class="container">
-
     <div id="tierBanner"></div>
-
     <div class="dash-header">
       <h1>Upcoming events</h1>
       <div style="color:var(--ink-faint); font-size:0.9rem;" id="lastUpdated"></div>
     </div>
-
     <div class="filter-bar" id="filterBar">
       <button class="filter-chip active" data-league="all">All</button>
       <button class="filter-chip" data-league="ufc">UFC</button>
@@ -47,17 +38,15 @@
       <button class="filter-chip" data-league="nba">NBA</button>
       <button class="filter-chip" data-league="nfl">NFL</button>
     </div>
-
     <div id="eventGrid" class="event-grid">
       <div class="loading">Loading upcoming events…</div>
     </div>
-
   </div>
 </main>
 
 <footer>
   <div class="container foot-row">
-    <div>© 2026 JoeBets. Bet responsibly.</div>
+    <div>&copy; 2026 JoeBets. Bet responsibly.</div>
     <div>
       <a href="/">Home</a>
       <a href="/#pricing">Membership</a>
@@ -66,23 +55,22 @@
   </div>
 </footer>
 
-<!-- ─── Auth modal (shared) ─── -->
 <div class="modal-bg" id="authModal" onclick="if(event.target.id==='authModal')closeAuth()">
   <div class="modal">
-    <button class="close" onclick="closeAuth()">×</button>
-    <h3 id="authTitle">Sign in to JoeBets</h3>
-    <p id="authSub" style="margin:0 0 6px; font-size:0.95rem;">Enter your email — we'll send you a magic link.</p>
-    <form onsubmit="submitAuth(event)">
+    <button class="close" onclick="closeAuth()">&times;</button>
+    <h3>Get your Gold Ticket</h3>
+    <p style="margin:0 0 6px; font-size:0.95rem;">Enter your email &mdash; we&rsquo;ll send you to secure checkout. $29/month, cancel anytime.</p>
+    <form onsubmit="submitCheckout(event)">
       <input type="email" id="authEmail" placeholder="you@email.com" required autocomplete="email">
-      <button type="submit" class="btn btn-primary submit" id="authSubmit">Send magic link</button>
+      <button type="submit" class="btn btn-primary submit" id="authSubmit">Continue to Stripe</button>
     </form>
     <div id="authMsg"></div>
-    <p class="tiny">No passwords. No spam. We'll email you a one-time sign-in link.</p>
+    <p class="tiny">Secure payment via Stripe. Your email is your account &mdash; no password.</p>
   </div>
 </div>
 
 <script>
-/* ─── Auth state ─── */
+/* Session — set when Stripe checkout completes and redirects back with ?token=... */
 function getSession() {
   try {
     const raw = localStorage.getItem('jb.session');
@@ -100,8 +88,8 @@ function signOut() {
   location.reload();
 }
 
-/* Magic-link handoff: if URL has ?token=..., save it */
-(function handleMagicLink() {
+/* Token handoff from Stripe success redirect */
+(function handleTokenHandoff() {
   const p = new URLSearchParams(location.search);
   const token = p.get('token');
   if (!token) return;
@@ -109,7 +97,6 @@ function signOut() {
     const [, payloadB64] = token.split('.');
     const payload = JSON.parse(atob(payloadB64.replace(/-/g,'+').replace(/_/g,'/')));
     setSession(token, payload);
-    // Clean URL
     history.replaceState({}, '', location.pathname);
   } catch (e) { console.warn('Bad token', e); }
 })();
@@ -117,47 +104,33 @@ function signOut() {
 function renderNavCta() {
   const s = getSession();
   const nav = document.getElementById('navCta');
-  if (s) {
-    const tier = (s.tier || 'free').toUpperCase();
+  if (s && s.tier === 'gold') {
     nav.innerHTML = `
       <span style="color:var(--ink-dim); font-size:0.88rem; margin-right:10px;">
-        ${s.email} · <span style="color:var(--gold-bright); font-weight:600;">${tier}</span>
+        ${s.email} &middot; <span style="color:var(--gold-bright); font-weight:600;">GOLD</span>
       </span>
-      ${s.tier !== 'gold' ? '<button class="btn btn-primary" onclick="openAuth(\'gold\')">Upgrade</button>' : ''}
       <button class="btn btn-ghost" onclick="signOut()">Sign out</button>
     `;
   } else {
-    nav.innerHTML = `
-      <button class="btn btn-ghost" onclick="openAuth('free')">Sign in</button>
-      <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold</button>
-    `;
+    nav.innerHTML = `<button class="btn btn-primary" onclick="openCheckout()">Get Gold</button>`;
   }
 }
 
 function renderTierBanner() {
   const s = getSession();
   const el = document.getElementById('tierBanner');
-  if (!s) {
+  if (!s || s.tier !== 'gold') {
     el.innerHTML = `
       <div class="tier-banner">
-        <div class="msg">You're browsing as a <strong>Visitor</strong>. Create a free account to unlock the community — or <strong>get the Gold Ticket</strong> to see every pick.</div>
-        <div style="display:flex; gap:10px;">
-          <button class="btn btn-ghost" onclick="openAuth('free')">Free account</button>
-          <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold</button>
-        </div>
-      </div>`;
-  } else if (s.tier !== 'gold') {
-    el.innerHTML = `
-      <div class="tier-banner">
-        <div class="msg">You're on the <strong>Free</strong> plan. Upgrade to Gold Ticket to unlock all picks and analysis.</div>
-        <button class="btn btn-primary" onclick="openAuth('gold')">Upgrade to Gold</button>
+        <div class="msg">You&rsquo;re browsing as a <strong>Visitor</strong>. Get the <strong>Gold Ticket</strong> to unlock every pick, sizing logic, and fighter analytics.</div>
+        <button class="btn btn-primary" onclick="openCheckout()">Get Gold Ticket</button>
       </div>`;
   } else {
     el.innerHTML = '';
   }
 }
 
-/* ─── Events ─── */
+/* Events */
 let allEvents = [];
 let activeLeague = 'all';
 
@@ -173,7 +146,7 @@ async function loadEvents() {
     document.getElementById('eventGrid').innerHTML = `
       <div class="empty">
         <div style="font-size:1.1rem; color:var(--ink-dim); margin-bottom:8px;">Live events unavailable</div>
-        <div style="font-size:0.9rem;">${e.message}. Event feed requires the backend function to be deployed.</div>
+        <div style="font-size:0.9rem;">${e.message}.</div>
       </div>`;
   }
 }
@@ -183,31 +156,26 @@ function renderEvents() {
   const isGold = s && s.tier === 'gold';
   const grid = document.getElementById('eventGrid');
   const filtered = activeLeague === 'all' ? allEvents : allEvents.filter(e => e.league === activeLeague);
-
   if (filtered.length === 0) {
     grid.innerHTML = `<div class="empty">No upcoming events in this category.</div>`;
     return;
   }
-
   grid.innerHTML = filtered.map(ev => {
     const dt = ev.startTime ? new Date(ev.startTime).toLocaleString([], { weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }) : ev.dateText || '';
     const pickBlock = ev.pick && isGold
-      ? `<div class="pick">
-           <span class="label">Pick</span>
-           ${ev.pick.text} ${ev.pick.units ? `· <span style="color:var(--gold-bright);">${ev.pick.units}u</span>` : ''}
-         </div>`
+      ? `<div class="pick"><span class="label">Pick</span> ${ev.pick.text} ${ev.pick.units ? `&middot; <span style="color:var(--gold-bright);">${ev.pick.units}u</span>` : ''}</div>`
       : ev.pick
         ? `<div class="pick" style="opacity:0.5;"><span class="label">Pick</span>
-             <span style="filter:blur(5px); user-select:none;">Pereira by KO, Rd 2 · 3u</span>
+             <span style="filter:blur(5px); user-select:none;">Pereira by KO, Rd 2 &middot; 3u</span>
              <div style="margin-top:8px; font-size:0.78rem; color:var(--gold-bright);">🔒 Gold Ticket required</div>
            </div>`
         : '';
     return `
-      <div class="event-card${ev.pick && !isGold ? ' ' : ''}">
+      <div class="event-card">
         ${ev.pick && !isGold ? '<span class="lock-badge">GOLD</span>' : ''}
-        <div class="league">${ev.leagueName || ev.league.toUpperCase()}${ev.card ? ' · ' + ev.card : ''}</div>
+        <div class="league">${ev.leagueName || ev.league.toUpperCase()}${ev.card ? ' &middot; ' + ev.card : ''}</div>
         <div class="matchup">${ev.matchup}</div>
-        <div class="meta">${dt}${ev.venue ? ' · ' + ev.venue : ''}</div>
+        <div class="meta">${dt}${ev.venue ? ' &middot; ' + ev.venue : ''}</div>
         ${pickBlock}
       </div>`;
   }).join('');
@@ -221,28 +189,14 @@ document.getElementById('filterBar').addEventListener('click', (e) => {
   renderEvents();
 });
 
-/* ─── Auth modal (copy of index.html) ─── */
-let authIntent = 'free';
-function openAuth(intent) {
-  authIntent = intent || 'free';
-  const t = document.getElementById('authTitle');
-  const s = document.getElementById('authSub');
-  const b = document.getElementById('authSubmit');
-  if (authIntent === 'gold') {
-    t.textContent = 'Get your Gold Ticket';
-    s.textContent = 'Enter your email — we\'ll create your account and send you to checkout.';
-    b.textContent = 'Continue to Stripe';
-  } else {
-    t.textContent = 'Sign in or create a free account';
-    s.textContent = 'Enter your email — we\'ll send you a magic link.';
-    b.textContent = 'Send magic link';
-  }
+/* Checkout modal */
+function openCheckout() {
   document.getElementById('authMsg').innerHTML = '';
   document.getElementById('authModal').classList.add('open');
   setTimeout(() => document.getElementById('authEmail').focus(), 50);
 }
 function closeAuth() { document.getElementById('authModal').classList.remove('open'); }
-async function submitAuth(e) {
+async function submitCheckout(e) {
   e.preventDefault();
   const email = document.getElementById('authEmail').value.trim();
   const msg = document.getElementById('authMsg');
@@ -250,10 +204,9 @@ async function submitAuth(e) {
   btn.disabled = true;
   btn.textContent = 'Working…';
   try {
-    const endpoint = authIntent === 'gold' ? '/.netlify/functions/checkout' : '/.netlify/functions/auth-request';
-    const res = await fetch(endpoint, {
+    const res = await fetch('/.netlify/functions/checkout', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ email, tier: authIntent })
+      body: JSON.stringify({ email, tier: 'gold' })
     });
     if (!res.ok) {
       const { error } = await res.json().catch(() => ({ error: 'Something went wrong.' }));
@@ -261,17 +214,16 @@ async function submitAuth(e) {
     }
     const data = await res.json();
     if (data.url) { window.location.href = data.url; return; }
-    msg.innerHTML = '<div class="success">Check your email for the sign-in link.</div>';
-    btn.textContent = 'Sent ✓';
+    throw new Error('Unexpected response.');
   } catch (err) {
     msg.innerHTML = '<div class="err">' + (err.message || 'Try again.') + '</div>';
     btn.disabled = false;
-    btn.textContent = authIntent === 'gold' ? 'Continue to Stripe' : 'Send magic link';
+    btn.textContent = 'Continue to Stripe';
   }
 }
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuth(); });
 
-/* ─── Boot ─── */
+/* Boot */
 renderNavCta();
 renderTierBanner();
 loadEvents();

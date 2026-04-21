@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JoeBets — Sharp picks for the combat sports bettor</title>
-<meta name="description" content="JoeBets delivers data-driven picks, fighter analytics, and live event tracking. Free account gets you community access. Gold Ticket unlocks the full playbook.">
+<meta name="description" content="JoeBets delivers data-driven picks, fighter analytics, and live event tracking. Gold Ticket unlocks the full playbook.">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,12 +13,9 @@
 </head>
 <body>
 
-<!-- ─── Nav ─── -->
 <nav class="nav">
   <div class="container nav-inner">
-    <a href="/" class="nav-brand">
-      <img src="/logo.png" alt="JoeBets">
-    </a>
+    <a href="/" class="nav-brand"><img src="/logo.png" alt="JoeBets"></a>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#preview">What's inside</a>
@@ -26,27 +23,25 @@
       <a href="/app.html">Dashboard</a>
     </div>
     <div class="nav-cta">
-      <button class="btn btn-ghost" onclick="openAuth('free')">Sign in</button>
-      <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold</button>
+      <button class="btn btn-ghost" onclick="location.href='/app.html'">Dashboard</button>
+      <button class="btn btn-primary" onclick="openCheckout()">Get Gold</button>
     </div>
   </div>
 </nav>
 
-<!-- ─── Hero ─── -->
 <header class="hero">
   <div class="container hero-inner">
     <img src="/logo.png" alt="JoeBets" class="hero-logo">
-    <span class="eyebrow">Sharp picks · Live data · No noise</span>
+    <span class="eyebrow">Sharp picks &middot; Live data &middot; No noise</span>
     <h1>Bet smarter on the fights that matter.</h1>
-    <p class="sub">Data-driven picks on every major UFC, boxing, and combat sports card — backed by fighter-level analytics you won't find anywhere else.</p>
+    <p class="sub">Data-driven picks on every major UFC, boxing, and combat sports card &mdash; backed by fighter-level analytics you won&rsquo;t find anywhere else.</p>
     <div class="cta-row">
-      <button class="btn btn-primary btn-lg" onclick="openAuth('gold')">Get the Gold Ticket</button>
-      <button class="btn btn-ghost btn-lg" onclick="openAuth('free')">Create free account</button>
+      <button class="btn btn-primary btn-lg" onclick="openCheckout()">Get the Gold Ticket</button>
+      <button class="btn btn-ghost btn-lg" onclick="location.href='/app.html'">Browse the dashboard</button>
     </div>
   </div>
 </header>
 
-<!-- ─── How it works ─── -->
 <section id="how">
   <div class="container">
     <div class="section-head">
@@ -54,125 +49,85 @@
       <h2>From card to cashed ticket in three steps.</h2>
     </div>
     <div class="steps">
-      <div class="step">
-        <div class="num">01</div>
-        <h3>We track every card</h3>
-        <p>Live schedules from UFC, Bellator, PFL, and major boxing promotions — pulled in real time. Fighter stats sourced from Tapology and verified.</p>
-      </div>
-      <div class="step">
-        <div class="num">02</div>
-        <h3>We break down matchups</h3>
-        <p>Every fight gets its own breakdown — striking stats, grappling history, camp intel, line movement. We show our work.</p>
-      </div>
-      <div class="step">
-        <div class="num">03</div>
-        <h3>You place sharp bets</h3>
-        <p>Gold Ticket holders get the picks, the sizing logic, and historical performance — in time to shop for the best line.</p>
-      </div>
+      <div class="step"><div class="num">01</div><h3>We track every card</h3><p>Live schedules from UFC, Bellator, PFL, and major boxing promotions &mdash; pulled in real time. Fighter stats sourced from Tapology and verified.</p></div>
+      <div class="step"><div class="num">02</div><h3>We break down matchups</h3><p>Every fight gets its own breakdown &mdash; striking stats, grappling history, camp intel, line movement. We show our work.</p></div>
+      <div class="step"><div class="num">03</div><h3>You place sharp bets</h3><p>Gold Ticket holders get the picks, the sizing logic, and historical performance &mdash; in time to shop for the best line.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ─── What's inside ─── -->
 <section id="preview">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">What's inside</span>
-      <h2>A preview of this week's slate.</h2>
-      <p>Free members see matchups and public stats. Gold Ticket unlocks picks, sizing, and the full breakdown.</p>
+      <h2>A preview of this week&rsquo;s slate.</h2>
+      <p>Visitors see matchups and public stats. Gold Ticket unlocks picks, sizing, and the full breakdown.</p>
     </div>
     <div class="preview-wrap">
       <div class="event-card locked">
         <span class="lock-badge">GOLD</span>
-        <div class="league">UFC · Main card</div>
+        <div class="league">UFC &middot; Main card</div>
         <div class="matchup">Pereira vs. Ankalaev</div>
-        <div class="meta">Saturday · UFC 320 · Las Vegas</div>
-        <div class="pick">
-          <span class="label">Pick</span>
-          Pereira by KO, Rd 2 — 3u
-        </div>
+        <div class="meta">Saturday &middot; UFC 320 &middot; Las Vegas</div>
+        <div class="pick"><span class="label">Pick</span> Pereira by KO, Rd 2 &mdash; 3u</div>
       </div>
       <div class="event-card locked">
         <span class="lock-badge">GOLD</span>
-        <div class="league">UFC · Co-main</div>
+        <div class="league">UFC &middot; Co-main</div>
         <div class="matchup">Dvalishvili vs. Sandhagen</div>
-        <div class="meta">Saturday · UFC 320 · Las Vegas</div>
-        <div class="pick">
-          <span class="label">Pick</span>
-          Dvalishvili ITD — 2u
-        </div>
+        <div class="meta">Saturday &middot; UFC 320 &middot; Las Vegas</div>
+        <div class="pick"><span class="label">Pick</span> Dvalishvili ITD &mdash; 2u</div>
       </div>
       <div class="event-card locked">
         <span class="lock-badge">GOLD</span>
-        <div class="league">Boxing · Main event</div>
+        <div class="league">Boxing &middot; Main event</div>
         <div class="matchup">Crawford vs. Madrimov</div>
-        <div class="meta">Saturday · DAZN PPV</div>
-        <div class="pick">
-          <span class="label">Pick</span>
-          Over 8.5 rounds — 2u
-        </div>
+        <div class="meta">Saturday &middot; DAZN PPV</div>
+        <div class="pick"><span class="label">Pick</span> Over 8.5 rounds &mdash; 2u</div>
       </div>
     </div>
-    <p style="text-align:center; margin-top:36px; color:var(--ink-faint);">Preview data — live events appear on the <a href="/app.html">dashboard</a>.</p>
+    <p style="text-align:center; margin-top:36px; color:var(--ink-faint);">Preview data &mdash; live events appear on the <a href="/app.html">dashboard</a>.</p>
   </div>
 </section>
 
-<!-- ─── Pricing / tiers ─── -->
 <section id="pricing">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Membership</span>
-      <h2>Three ways to watch. One way to win.</h2>
+      <h2>Two ways to watch. One way to win.</h2>
     </div>
-    <div class="tiers">
-
+    <div class="tiers tiers-2">
       <div class="tier">
         <h3>Visitor</h3>
-        <div class="price">Free<span class="unit"> · no account</span></div>
+        <div class="price">Free<span class="unit"> &middot; no account</span></div>
         <ul>
           <li>Browse upcoming cards</li>
           <li>See matchups and public stats</li>
-          <li class="muted">Community access</li>
-          <li class="muted">Picks and analysis</li>
-          <li class="muted">Sizing &amp; bankroll tools</li>
+          <li>Community reading access</li>
+          <li class="muted">Picks, sizing &amp; analysis</li>
+          <li class="muted">Fighter deep-dive analytics</li>
         </ul>
         <button class="btn btn-ghost" onclick="location.href='/app.html'">Browse the dashboard</button>
       </div>
-
-      <div class="tier">
-        <h3>Free account</h3>
-        <div class="price">$0<span class="unit"> / forever</span></div>
-        <ul>
-          <li>Everything in Visitor</li>
-          <li>Community forum access</li>
-          <li>Save favorite fighters</li>
-          <li>Weekly free pick of the week</li>
-          <li class="muted">Full picks and analysis</li>
-        </ul>
-        <button class="btn btn-ghost" onclick="openAuth('free')">Create free account</button>
-      </div>
-
       <div class="tier featured">
         <h3>Gold Ticket</h3>
         <div class="price">$29<span class="unit"> / month</span></div>
         <ul>
-          <li>Everything in Free</li>
           <li>All picks, with sizing &amp; reasoning</li>
           <li>Fighter deep-dive analytics</li>
           <li>Parlay &amp; prop plays</li>
           <li>Historical performance tracking</li>
+          <li>Community posting access</li>
         </ul>
-        <button class="btn btn-primary" onclick="openAuth('gold')">Get Gold Ticket</button>
+        <button class="btn btn-primary" onclick="openCheckout()">Get Gold Ticket</button>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ─── Footer ─── -->
 <footer>
   <div class="container foot-row">
-    <div>© 2026 JoeBets. Bet responsibly.</div>
+    <div>&copy; 2026 JoeBets. Bet responsibly.</div>
     <div>
       <a href="/app.html">Dashboard</a>
       <a href="#pricing">Membership</a>
@@ -181,37 +136,22 @@
   </div>
 </footer>
 
-<!-- ─── Auth modal ─── -->
 <div class="modal-bg" id="authModal" onclick="if(event.target.id==='authModal')closeAuth()">
   <div class="modal">
-    <button class="close" onclick="closeAuth()">×</button>
-    <h3 id="authTitle">Sign in to JoeBets</h3>
-    <p id="authSub" style="margin:0 0 6px; font-size:0.95rem;">Enter your email — we'll send you a magic link.</p>
-    <form onsubmit="submitAuth(event)">
+    <button class="close" onclick="closeAuth()">&times;</button>
+    <h3>Get your Gold Ticket</h3>
+    <p style="margin:0 0 6px; font-size:0.95rem;">Enter your email &mdash; we&rsquo;ll send you to secure checkout. $29/month, cancel anytime.</p>
+    <form onsubmit="submitCheckout(event)">
       <input type="email" id="authEmail" placeholder="you@email.com" required autocomplete="email">
-      <button type="submit" class="btn btn-primary submit" id="authSubmit">Send magic link</button>
+      <button type="submit" class="btn btn-primary submit" id="authSubmit">Continue to Stripe</button>
     </form>
     <div id="authMsg"></div>
-    <p class="tiny">No passwords. No spam. We'll email you a one-time sign-in link.</p>
+    <p class="tiny">Secure payment via Stripe. Your email is your account &mdash; no password.</p>
   </div>
 </div>
 
 <script>
-let authIntent = 'free';
-function openAuth(intent) {
-  authIntent = intent || 'free';
-  const t = document.getElementById('authTitle');
-  const s = document.getElementById('authSub');
-  const b = document.getElementById('authSubmit');
-  if (authIntent === 'gold') {
-    t.textContent = 'Get your Gold Ticket';
-    s.textContent = 'Enter your email — we\'ll create your account and send you to checkout.';
-    b.textContent = 'Continue to Stripe';
-  } else {
-    t.textContent = 'Sign in or create a free account';
-    s.textContent = 'Enter your email — we\'ll send you a magic link.';
-    b.textContent = 'Send magic link';
-  }
+function openCheckout() {
   document.getElementById('authMsg').innerHTML = '';
   document.getElementById('authModal').classList.add('open');
   setTimeout(() => document.getElementById('authEmail').focus(), 50);
@@ -219,7 +159,7 @@ function openAuth(intent) {
 function closeAuth() {
   document.getElementById('authModal').classList.remove('open');
 }
-async function submitAuth(e) {
+async function submitCheckout(e) {
   e.preventDefault();
   const email = document.getElementById('authEmail').value.trim();
   const msg = document.getElementById('authMsg');
@@ -227,30 +167,24 @@ async function submitAuth(e) {
   btn.disabled = true;
   btn.textContent = 'Working…';
   try {
-    const endpoint = authIntent === 'gold' ? '/.netlify/functions/checkout' : '/.netlify/functions/auth-request';
-    const res = await fetch(endpoint, {
+    const res = await fetch('/.netlify/functions/checkout', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email, tier: authIntent })
+      body: JSON.stringify({ email, tier: 'gold' })
     });
     if (!res.ok) {
       const { error } = await res.json().catch(() => ({ error: 'Something went wrong. Try again.' }));
       throw new Error(error);
     }
     const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-      return;
-    }
-    msg.innerHTML = '<div class="success">Check your email for the sign-in link.</div>';
-    btn.textContent = 'Sent ✓';
+    if (data.url) { window.location.href = data.url; return; }
+    throw new Error('Unexpected response from server.');
   } catch (err) {
     msg.innerHTML = '<div class="err">' + (err.message || 'Try again.') + '</div>';
     btn.disabled = false;
-    btn.textContent = authIntent === 'gold' ? 'Continue to Stripe' : 'Send magic link';
+    btn.textContent = 'Continue to Stripe';
   }
 }
-// Close on Esc
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuth(); });
 </script>
 
