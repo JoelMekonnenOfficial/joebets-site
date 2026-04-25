@@ -15,26 +15,46 @@ const LEAGUE_NAMES = {
   nfl: 'NFL',
 };
 
+// Pick the headline competition from an ESPN event.
+// ESPN orders MMA/boxing competitions earliest -> latest (prelims -> main event).
+// The main event is reliably:
+//   1. The last 5-round bout on the card (UFC main events are 5 rounds), or
+//   2. The last competition in the array (always true for Fight Night cards).
+// For NBA/NFL there is only one competition, so the result is unchanged.
+function pickMainCompetition(ev) {
+  const comps = (ev && ev.competitions) || [];
+  if (!comps.length) return null;
+  const fiveRound = [...comps].reverse().find(
+    c => c && c.format && c.format.regulation && c.format.regulation.periods === 5
+  );
+  return fiveRound || comps[comps.length - 1];
+}
+
 async function fetchLeague(league) {
   try {
     const res = await fetch(ESPN[league], { headers: { 'Accept': 'application/json' } });
     if (!res.ok) return [];
     const data = await res.json();
     const events = (data.events || []).map(ev => {
-      const comp = ev.competitions && ev.competitions[0];
+      const comp = pickMainCompetition(ev);
       const competitors = comp ? comp.competitors || [] : [];
-      const names = competitors.map(c => c.athlete?.displayName || c.team?.displayName || c.displayName).filter(Boolean);
+      const names = competitors
+        .map(c => c.athlete?.displayName || c.team?.displayName || c.displayName)
+        .filter(Boolean);
       const matchup = names.length >= 2 ? `${names[0]} vs. ${names[1]}` : ev.name || 'TBD';
       const venue = comp?.venue?.fullName;
-      const card = comp?.notes?.[0]?.headline;
+      // For combat sports, ESPN's ev.name already has the card label
+      // (e.g. "UFC Fight Night: Sterling vs. Zalal"). Use that as the card
+      // when no per-competition headline note is set.
+      const card = comp?.notes?.[0]?.headline || (league === 'ufc' || league === 'boxing' ? ev.name : undefined);
       return {
         league,
         leagueName: LEAGUE_NAMES[league],
         matchup,
-        startTime: ev.date,
+        startTime: comp?.date || ev.date,
         venue,
         card,
-        // Pick placeholder — real picks come from a separate picks source later
+        // Pick placeholder â real picks come from a separate picks source later
         pick: null,
       };
     });
