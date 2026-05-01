@@ -136,7 +136,7 @@ let activeLeague = 'all';
 
 async function loadEvents() {
   try {
-    const res = await fetch('/.netlify/functions/events');
+    const res = await fetch('/api/events');
     if (!res.ok) throw new Error('Could not load events');
     const data = await res.json();
     allEvents = data.events || [];
@@ -204,7 +204,7 @@ async function submitCheckout(e) {
   btn.disabled = true;
   btn.textContent = 'Working…';
   try {
-    const res = await fetch('/.netlify/functions/checkout', {
+    const res = await fetch('/api/checkout', {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ email, tier: 'gold' })
     });

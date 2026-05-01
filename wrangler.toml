@@ -1,0 +1,8 @@
+name = "joebets-site"
+compatibility_date = "2026-04-30"
+main = "worker.js"
+pages_build_output_dir = "public"
+
+[assets]
+directory = "./public"
+binding = "SITE_ASSETS"

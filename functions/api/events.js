@@ -1,6 +1,3 @@
-// Aggregates upcoming events from ESPN public scoreboards.
-// Returns a uniform shape for the dashboard.
-
 const ESPN = {
   ufc: 'https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard',
   boxing: 'https://site.api.espn.com/apis/site/v2/sports/mma/boxing/scoreboard',
@@ -54,7 +51,7 @@ async function fetchLeague(league) {
         startTime: comp?.date || ev.date,
         venue,
         card,
-        // Pick placeholder â real picks come from a separate picks source later
+        // Pick placeholder; real picks come from a separate picks source later.
         pick: null,
       };
     });
@@ -64,7 +61,11 @@ async function fetchLeague(league) {
   }
 }
 
-exports.handler = async () => {
+export async function onRequest({ request }) {
+  if (request.method !== 'GET') {
+    return json(405, { error: 'GET only' }, { Allow: 'GET' });
+  }
+
   const results = await Promise.all(Object.keys(ESPN).map(fetchLeague));
   let events = results.flat();
 
@@ -84,15 +85,10 @@ exports.handler = async () => {
     }
   }
 
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=300',
-    },
-    body: JSON.stringify({ events, updated: new Date().toISOString() }),
-  };
-};
+  return json(200, { events, updated: new Date().toISOString() }, {
+    'Cache-Control': 'public, max-age=300',
+  });
+}
 
 function demoPick(ev) {
   // Placeholder demo pick so Gold users see something. Replace with real picks pipeline.
@@ -101,4 +97,14 @@ function demoPick(ev) {
     return { text: `${first} by decision`, units: 2 };
   }
   return { text: `${first} moneyline`, units: 1 };
+}
+
+function json(status, data, headers = {}) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      ...headers,
+    },
+  });
 }

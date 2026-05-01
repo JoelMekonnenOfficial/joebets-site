@@ -1,43 +1,44 @@
-# JoeBets — post-deploy setup
+# JoeBets - post-deploy setup
 
-The site deploys and runs immediately. Stripe checkout needs a few environment variables before it will process payments. Until you set them, the static pages work fine.
+The site deploys and runs on Cloudflare Pages. Stripe checkout needs a few environment variables before it will process payments. Until you set them, the static pages work fine.
 
 ## Required environment variables
 
-Set these in **Netlify → Site settings → Environment variables**:
+Set these in **Cloudflare Pages -> joebets-site -> Settings -> Environment variables**:
 
 | Variable | What it is | Where to get it |
 | --- | --- | --- |
 | `JWT_SECRET` | Random 32+ char secret for signing session tokens | Generate: `openssl rand -hex 32` or any long random string |
-| `STRIPE_SECRET_KEY` | Stripe secret key (`sk_live_…` or `sk_test_…`) | Stripe dashboard → Developers → API keys |
-| `STRIPE_PRICE_ID_GOLD` | Price ID for the monthly Gold Ticket subscription | Stripe → Products → Gold Ticket → copy price ID `price_…` |
-| `STRIPE_WEBHOOK_SECRET` | Signing secret for the Stripe webhook | Stripe → Developers → Webhooks → Add endpoint (see below) |
+| `STRIPE_SECRET_KEY` | Stripe secret key (`sk_live_...` or `sk_test_...`) | Stripe dashboard -> Developers -> API keys |
+| `STRIPE_PRICE_ID_GOLD` | Price ID for the monthly Gold Ticket subscription | Stripe -> Products -> Gold Ticket -> copy price ID `price_...` |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret for the Stripe webhook | Stripe -> Developers -> Webhooks -> Add endpoint (see below) |
+| `SITE_URL` | Optional canonical site URL for Stripe redirects | Usually `https://joebets.com`; otherwise the current request origin is used |
 
-Netlify also exposes `URL` automatically (your production URL).
+Optional: bind a Cloudflare KV namespace as `USERS` to persist Gold/free tier state from checkout success and webhook events.
 
 ## Step by step
 
 ### 1. `JWT_SECRET`
-Already set if you followed the autonomous setup. Otherwise: `openssl rand -hex 32`, paste into Netlify.
+Already set if you followed the autonomous setup. Otherwise: `openssl rand -hex 32`, paste into Cloudflare Pages.
 
 ### 2. Stripe product + price
 1. Sign in at [stripe.com](https://stripe.com).
-2. Products → **+ Add product**. Name: `Gold Ticket`. Recurring, `$29 USD / month`.
-3. Save. Copy the **Price ID** (`price_…`) → paste into `STRIPE_PRICE_ID_GOLD` in Netlify.
-4. Developers → API keys → copy **Secret key** (`sk_test_…` for testing, `sk_live_…` for real money) → paste into `STRIPE_SECRET_KEY`.
+2. Products -> **+ Add product**. Name: `Gold Ticket`. Recurring, `$29 USD / month`.
+3. Save. Copy the **Price ID** (`price_...`) -> paste into `STRIPE_PRICE_ID_GOLD` in Cloudflare Pages.
+4. Developers -> API keys -> copy **Secret key** (`sk_test_...` for testing, `sk_live_...` for real money) -> paste into `STRIPE_SECRET_KEY`.
 
 ### 3. Stripe webhook
-1. Stripe → Developers → Webhooks → **+ Add endpoint**.
-2. Endpoint URL: `https://joebets.com/.netlify/functions/stripe-webhook`
+1. Stripe -> Developers -> Webhooks -> **+ Add endpoint**.
+2. Endpoint URL: `https://joebets.com/api/stripe-webhook`
 3. Events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
-4. After save, click the endpoint → **Signing secret** → reveal → copy (`whsec_…`) → paste into `STRIPE_WEBHOOK_SECRET`.
+4. After save, click the endpoint -> **Signing secret** -> reveal -> copy (`whsec_...`) -> paste into `STRIPE_WEBHOOK_SECRET`.
 
 ### 4. Redeploy
-Netlify auto-deploys on next git push. Or use **Deploys → Trigger deploy** to pick up the new env vars immediately.
+Cloudflare Pages auto-deploys on the next git push. Or use **Deployments -> Retry deployment** to pick up new env vars immediately.
 
 ## How checkout works
 
-**Gold signup:** user enters email → `/.netlify/functions/checkout` creates a Stripe Checkout session → user pays → Stripe redirects to `checkout-success` → we verify the payment, store the user as Gold in Netlify Blobs, issue a 30-day session JWT, redirect to `/app.html?token=...`.
+**Gold signup:** user enters email -> `/api/checkout` creates a Stripe Checkout session -> user pays -> Stripe redirects to `/api/checkout-success` -> we verify the payment, optionally store the user as Gold in Cloudflare KV, issue a 30-day session JWT, redirect to `/app.html?token=...`.
 
 **Ongoing:** `stripe-webhook` keeps tier in sync — downgrades to Free on cancellation.
 
@@ -45,7 +46,7 @@ Netlify auto-deploys on next git push. Or use **Deploys → Trigger deploy** to 
 
 ## User data storage
 
-Users are stored in Netlify Blobs. Key: `user:<email>`. Value: `{ email, tier, stripeCustomerId, subscriptionId, updatedAt }`.
+If a Cloudflare KV namespace is bound as `USERS`, users are stored at key `user:<email>`. Value: `{ email, tier, stripeCustomerId, subscriptionId, updatedAt }`.
 
 ## What's still stubbed
 

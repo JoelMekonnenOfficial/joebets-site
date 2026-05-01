@@ -9,12 +9,12 @@ Sports betting picks platform. Live at [joebets.com](https://joebets.com).
 - **`community.html`** — community reads (Gold members can post, everyone can read)
 - **`logo.png`** — the JoeBets logo (transparent background)
 - **`assets/styles.css`** — shared dark-gold design system
-- **`netlify/functions/`** — serverless backend:
+- **`functions/api/`** — Cloudflare Pages Functions backend:
   - `events.js` — aggregates upcoming UFC/boxing/NBA/NFL from ESPN public API
   - `checkout.js` — creates Stripe Checkout sessions for Gold Ticket
   - `checkout-success.js` — marks user as Gold after successful payment, issues session JWT
   - `stripe-webhook.js` — keeps subscription tier in sync
-  - `_jwt.js` — shared HMAC-SHA256 JWT helpers
+- **`functions/_lib/`** — shared Worker-safe helpers
 
 ## Tiers
 
@@ -23,8 +23,8 @@ Sports betting picks platform. Live at [joebets.com](https://joebets.com).
 
 ## Deploy
 
-Auto-deploys from `main` to Netlify. See [SETUP.md](./SETUP.md) for Stripe environment variables.
+Deploys from `main` to Cloudflare Pages. Build output directory is `public`; Functions directory is `functions`. See [SETUP.md](./SETUP.md) for Stripe environment variables.
 
 ## Tech
 
-Pure HTML/CSS/JS on the frontend. Netlify Functions (Node 20) on the backend. Netlify Blobs for user storage. No framework, no build step.
+Pure HTML/CSS/JS on the frontend. Cloudflare Pages Functions on the backend. Optional Cloudflare KV user storage via a `USERS` binding. No framework, no build step.
